@@ -44,9 +44,11 @@ def organize(current_path, keyword):
     # print("Hello World")
     """ Organize Files and Sort Them Into Folders By Keyword
 
-        eg. python file_organizer organize [Path] --keyword Date
+        eg. python file_organizer.py organize [Path] --keyword Date
 
         eg. python file_organizer.py organize [Path] --keyword Size
+
+        eg. python file_organizer.py organize [Path] --keyword extension
 
         eg. python file_organizer.py organize [default Path]
 
@@ -104,67 +106,48 @@ def organize(current_path, keyword):
                     os.makedirs(current_path + "GIGANTIC")
                 # print("Moving File", file)
                 shutil.move(current_path + file, current_path + "/GIGANTIC")
-
         click.secho(
             ('Finished Organizing by date:{}'.format(keyword)), fg='green')
-    else:
-        organize_files_by_keyword(keyword, current_path)
+    elif (keyword == "extension"):
+        # print("extension=",extension)
+        # print("current Path=",current_path)
+        # print(os.listdir(current_path))
 
-
-@main.command()
-@click.argument('current_path', default='./')
-@click.option(
-    '--extension', '-e', help="Specify Extension to Sort By: Default is .txt")
-def organize_by_ext(current_path, extension):
-    # print("Hello World")
-    """ Organize Files and Sort Them Into Folders By Extension
-
-        eg. python file_organizer.py organize-by-ext [Default Path]
-
-        eg. python file_organizer.py organize-by-ext [Path] --extension txt
-
-        eg. python file_organizer.py organize-by-ext  [Path] --extension .csv
-
-    """
-    # print("extension=",extension)
-    # print("current Path=",current_path)
-    # print(os.listdir(current_path))
-
-    folder_dict = {
-        "HTML": [".html5", ".html", ".htm", ".xhtml"],
-        "IMAGES": [
-            ".jpeg", ".jpg", ".tiff", ".gif", ".bmp", ".png", ".bpg", "svg",
-            ".heif", ".psd"
-        ],
-        "VIDEOS": [
-            ".avi", ".flv", ".wmv", ".mov", ".mp4", ".webm", ".vob", ".mng",
-            ".qt", ".mpg", ".mpeg", ".3gp"
-        ],
-        "DOCUMENTS": [
-            ".oxps", ".epub", ".pages", ".docx", ".doc", ".fdf", ".ods",
-            ".odt", ".pwi", ".xsn", ".xps", ".dotx", ".docm", ".dox", ".rvg",
-            ".rtf", ".rtfd", ".wpd", ".xls", ".xlsx", ".ppt", "pptx"
-        ],
-        "ARCHIVES": [
-            ".a", ".ar", ".cpio", ".iso", ".tar", ".gz", ".rz", ".7z", ".dmg",
-            ".rar", ".xar", ".zip"
-        ],
-        "AUDIO": [
-            ".aac", ".aa", ".aac", ".dvf", ".m4a", ".m4b", ".m4p", ".mp3",
-            ".msv", "ogg", "oga", ".raw", ".vox", ".wav", ".wma"
-        ],
-        "PLAINTEXT": [".txt", ".in", ".out"],
-        "PDF": [".pdf"],
-        "PYTHON": [".py"],
-        "XML": [".xml"],
-        "EXE": [".exe"],
-        "SHELL": [".sh"],
-        "YAML": [".yaml"]
-    }
-    # print('extension=',extension)
-
-    if extension is None:
-        # print("Ima here")
+        folder_dict = {
+            "HTML": [".html5", ".html", ".htm", ".xhtml"],
+            "IMAGES": [
+                ".jpeg", ".jpg", ".tiff", ".gif", ".bmp", ".png", ".bpg",
+                "svg", ".heif", ".psd"
+            ],
+            "VIDEOS": [
+                ".avi", ".flv", ".wmv", ".mov", ".mp4", ".webm", ".vob",
+                ".mng", ".qt", ".mpg", ".mpeg", ".3gp"
+            ],
+            "DOCUMENTS": [
+                ".oxps", ".epub", ".pages", ".docx", ".doc", ".fdf", ".ods",
+                ".odt", ".pwi", ".xsn", ".xps", ".dotx", ".docm", ".dox",
+                ".rvg", ".rtf", ".rtfd", ".wpd", ".xls", ".xlsx", ".ppt",
+                "pptx"
+            ],
+            "ARCHIVES": [
+                ".a", ".ar", ".cpio", ".iso", ".tar", ".gz", ".rz", ".7z",
+                ".dmg", ".rar", ".xar", ".zip"
+            ],
+            "AUDIO": [
+                ".aac", ".aa", ".aac", ".dvf", ".m4a", ".m4b", ".m4p", ".mp3",
+                ".msv", "ogg", "oga", ".raw", ".vox", ".wav", ".wma"
+            ],
+            "PLAINTEXT": [".txt", ".in", ".out"],
+            "PDF": [".pdf"],
+            "PYTHON": [".py"],
+            "XML": [".xml"],
+            "EXE": [".exe"],
+            "SHELL": [".sh"],
+            "YAML": [".yaml"]
+        }
+        # print('extension=',extension)
+        print(keyword)
+        print("Ima here")
         FILE_FORMATS = {
             file_format: directory
             for directory, file_formats in folder_dict.items()
@@ -180,6 +163,9 @@ def organize_by_ext(current_path, extension):
             file_path = Path(entry)
             # print("file path=",file_path)
             file_format = file_path.suffix.lower()
+            if (file_path.name == "file_organizer.py"):
+                continue
+
             # print("file format =",file_format)
             if file_format in FILE_FORMATS:
                 # print("file_format",file_format)
@@ -197,41 +183,15 @@ def organize_by_ext(current_path, extension):
                     os.rmdir(dir)
                 except Exception:
                     pass
-        click.secho(
-            ('Finished Moving to their respective  folder Path: {}'.format(
-                directory_path)),
-            fg='green')
-
+        try:
+            click.secho(
+                ('Finished Moving to their respective  folder Path: {}'.format(
+                    directory_path)),
+                fg='green')
+        except Exception:
+            None
     else:
-        for file in os.listdir(current_path):
-            ext = extension
-            new_dir = ""
-            if fnmatch.fnmatch(file, '*' + ext):
-                click.secho(('Found File:{}'.format(file)), fg='blue')
-                # If the file is truly a file...
-                # print(file)
-                if os.path.isfile:
-                    try:
-                        # print("ty")
-                        # Make a directory with the extension name...
-                        if (current_path == '.'):
-                            new_dir = ext.strip(".").upper()
-                        else:
-                            new_dir = current_path + ext.strip(".").upper()
-                        # print("newdir=",new_dir)
-                        os.makedirs(new_dir)
-                    except Exception:
-                        # print("Hello")
-                        None
-                # Copy that file to the directory with that extension name
-                # print(current_path + new_dir)
-                if current_path == '.':
-                    shutil.move(file, new_dir)
-                else:
-                    shutil.move(current_path + file, new_dir)
-                # print("hello")
-        click.secho(
-            ('Finished Moving{}to:{}folder'.format(file, new_dir)), fg='green')
+        organize_files_by_keyword(keyword, current_path)
 
 
 if __name__ == '__main__':

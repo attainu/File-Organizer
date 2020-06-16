@@ -16,7 +16,7 @@ which files are present. It is very boring task to manually arrange all the file
 
     2) python file_organizer.py organize [Path] -- keyword Size
 
-    3) python file_organizer.py organize-by-ext [Path] --extantion[.txt/.csv/......]
+    3) python file_organizer.py organize [Path] --keyword extension
 
     4) python file_organizer.py organize [default Path] --[ default keyword Date ]
 
