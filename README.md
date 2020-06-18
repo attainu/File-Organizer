@@ -1,4 +1,4 @@
-# Junk File Organiser
+# File-Organiser
 Arranging files on your computer is just like arranging anything else. Say you want to organize your clothes. You might arrange each type of clothes into separate stacks or you could throw everything into one place and hope you can find the right pair of clothes when you need it. And that's how we typically treat our files: we save files randomly to our Desktop and Documents folders, then waste time searching for files every day.
 This is very useful for Lazy programmer who keeps bunch of files and folders at one location and sometimes he is in lot of confusion about
 which files are present. It is very boring task to manually arrange all the files into one folder.So This a python programm to organise everything in the single go in a blink of an eye.
