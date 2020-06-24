@@ -20,7 +20,7 @@ def organize_files_by_keyword(keyword, current_path):
 
 
 @click.group()
-@click.version_option(version='0.02', prog_name='file_organizer')
+@click.version_option(version='1.00', prog_name='file_organizer')
 def main():
     """ File Organizer is a simple tool to organize and sort files into folders
 
@@ -28,7 +28,10 @@ def main():
 
     2) eg. file_organizer.py organize [Path] -- keyword Size
 
-    3) eg. file_organizer.py organize-by-ext [Path] -- keyword Date
+    3) eg. file_organizer.py organize [Path] -- keyword Extension
+
+    4) eg. python file_organizer.py organize [default Path]
+                                            --[default keyword Date]
     """
     pass
 
@@ -48,9 +51,10 @@ def organize(current_path, keyword):
 
         eg. python file_organizer.py organize [Path] --keyword Size
 
-        eg. python file_organizer.py organize [Path] --keyword extension
+        eg. python file_organizer.py organize [Path] --keyword Extension
 
         eg. python file_organizer.py organize [default Path]
+                                                        --[default keyword]
 
     """
     """ Sorting by date """
@@ -108,7 +112,7 @@ def organize(current_path, keyword):
                 shutil.move(current_path + file, current_path + "/GIGANTIC")
         click.secho(
             ('Finished Organizing by date:{}'.format(keyword)), fg='green')
-    elif (keyword == "extension"):
+    elif (keyword == "Extension"):
         # print("extension=",extension)
         # print("current Path=",current_path)
         # print(os.listdir(current_path))
@@ -146,8 +150,8 @@ def organize(current_path, keyword):
             "YAML": [".yaml"]
         }
         # print('extension=',extension)
-        print(keyword)
-        print("Ima here")
+        # print(keyword)
+        # print("Ima here")
         FILE_FORMATS = {
             file_format: directory
             for directory, file_formats in folder_dict.items()
